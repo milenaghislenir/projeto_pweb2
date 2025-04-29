@@ -31,7 +31,7 @@ class CategoriesFactory extends Factory
         return [
             'genre' => $this->faker->unique()->word(),
             'description' => $this->faker->unique()->text(),
-            'popularity' => $this->faker->numberBetween(0,100) . '%',
+            'popularity' => $this->faker->numberBetween(0,100),
         ];
     }
 }

@@ -19,10 +19,11 @@ class MoviesFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->unique()->title(),
+            //'title' => $this->faker->randomElements(['Jogos Vorazes', 'Harry Potter', 'Nerve', 'Ponyo', 'Que Horas Ela Volta'],1,false),
+            'title' => $this->faker->words(2, true),
             'year' => $this->faker->year(),
             'category_id' => Categories::factory(),
-            'tomatoes' => $this->faker->numberBetween(0,100) . '%',
+            'tomatoes' => $this->faker->numberBetween(0,100),
             'director_id' => Directors::factory(), // instancia diretor para o filme, (instancia o filme e o diretor pq se criar só na factory do diretor não necessariamente cria o filme)
 
         ];

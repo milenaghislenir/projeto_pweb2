@@ -29,7 +29,7 @@
                 <tr>
                     <td>{{ $movie->title }}</td>
                     <td>{{ $movie->year }}</td>
-                    <td>{{ $movie->tomatoes }}</td>
+                    <td>{{ $movie->tomatoes }}%</td>
                     <td>
                         <a href="{{ route('movies.edit', $movie->id) }}" class="btn btn-warning btn-sm">Editar</a>
                         <form action="{{ route('movies.destroy', $movie->id) }}" method="POST" class="d-inline">
