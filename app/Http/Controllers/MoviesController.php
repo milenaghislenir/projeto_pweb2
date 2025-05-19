@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\Directors;
 use App\Models\Movies;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class MoviesController extends Controller
@@ -29,16 +30,22 @@ class MoviesController extends Controller
             'director_id' => 'required',
             'year' => 'required|string',
             'category_id' => 'required',
-            'tomatoes' => 'required|integer|min:0'
+            'tomatoes' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
-        $data = [
-            'title' => $request->title,
-            'director_id' => $request->director_id,
-            'year' => $request->year,
-            'category_id'=> $request->category_id,
-            'tomatoes' => $request->tomatoes
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $directory = "movies/";
 
-        ];
+            $image->storeAs(
+                $directory,
+                $fileName,
+                'public'
+            );
+            $data['image'] = $directory . $fileName;
+        }
 
         Movies::create($data);
 
@@ -60,16 +67,22 @@ class MoviesController extends Controller
             'director_id' => 'required',
             'year' => 'required|string',
             'category_id' => 'required',
-            'tomatoes' => 'required|integer|min:0'
+            'tomatoes' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
-        $data = [
-            'title' => $request->title,
-            'director_id' => $request->director_id,
-            'year' => $request->year,
-            'category_id'=> $request->category_id,
-            'tomatoes' => $request->tomatoes
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $directory = "movies/";
 
-        ];
+            $image->storeAs(
+                $directory,
+                $fileName,
+                'public'
+            );
+            $data['image'] = $directory . $fileName;
+        }
 
         $movie=Movies::find($id);
         $movie->update($data);
@@ -80,8 +93,18 @@ class MoviesController extends Controller
     public function destroy(string $id)
     {
         $movie=Movies::find($id);
+
+        if ($movie->image) {
+            $imagePath = public_path("storage/{$movie->image}");
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
         $movie->delete();
         return redirect("movie");
+
+
     }
 
     public function search(Request $request)
@@ -102,5 +125,17 @@ class MoviesController extends Controller
         }
         return view('movies.index', ['data'=>$data]);
 
+    }
+
+    public function report()
+    {
+        $movies = Movies::orderBy('title')->get();
+
+        $data = [
+            'movies' => $movies,
+        ];
+
+        $pdf = Pdf::loadView('movies.report', $data);
+        return $pdf->download('relatorio_listagem_movies.pdf');
     }
 }

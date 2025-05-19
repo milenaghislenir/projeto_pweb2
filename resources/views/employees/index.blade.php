@@ -22,6 +22,8 @@
                 <th>Idade</th>
                 <th>Posição</th>
                 <th>Salário</th>
+                <th>Imagem</th>
+
             </tr>
         </thead>
         <tbody>
@@ -31,6 +33,7 @@
                     <td>{{ $employee->age }}</td>
                     <td>{{ $employee->position }}</td>
                     <td>{{ $employee->salary }}</td>
+                    <td><img src="{{ asset('storage/' . $employee->image) }}"alt="Foto de Perfil" class="img-thumbnail" width="150"></img></td>
                     <td>
                         <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-warning btn-sm">Editar</a>
                         <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" class="d-inline">

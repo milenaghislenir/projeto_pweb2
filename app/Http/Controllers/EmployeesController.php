@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use App\Models\Employees;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class EmployeesController extends Controller
@@ -28,16 +29,22 @@ class EmployeesController extends Controller
             'name' => 'required|string|max:255',
             'age' => 'required|integer|min:0',
             'position' => 'required|string',
-            'salary' => 'required|integer|min:0'
+            'salary' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
-        $data = [
-            'name' => $request->name,
-            'age' => $request->age,
-            'position' => $request->position,
-            'salary'=> $request->salary
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $directory = "employees/";
 
-        ];
-
+            $image->storeAs(
+                $directory,
+                $fileName,
+                'public'
+            );
+            $data['image'] = $directory . $fileName;
+        }
         Employees::create($data);
 
         return redirect("employee");
@@ -56,15 +63,22 @@ class EmployeesController extends Controller
             'name' => 'required|string|max:255',
             'age' => 'required|integer|min:0',
             'position' => 'required|string',
-            'salary' => 'required|integer|min:0'
+            'salary' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
-        $data = [
-            'name' => $request->name,
-            'age' => $request->age,
-            'position' => $request->position,
-            'salary'=> $request->salary
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $directory = "employees/";
 
-        ];
+            $image->storeAs(
+                $directory,
+                $fileName,
+                'public'
+            );
+            $data['image'] = $directory . $fileName;
+        }
 
         $employee=Employees::find($id);
         $employee->update($data);
@@ -76,6 +90,14 @@ class EmployeesController extends Controller
     public function destroy(string $id)
     {
         $employee=Employees::find($id);
+
+        if ($employee->image) {
+            $imagePath = public_path("storage/{$employee->image}");
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
         $employee->delete();
         return redirect("employee");
     }
@@ -98,5 +120,17 @@ class EmployeesController extends Controller
         }
         return view('employees.index', ['data'=>$data]);
 
+    }
+
+    public function report()
+    {
+        $movies = Employees::orderBy('name')->get();
+
+        $data = [
+            'employees' => $employees,
+        ];
+
+        $pdf = Pdf::loadView('employees.report', $data);
+        return $pdf->download('relatorio_listagem_employees.pdf');
     }
 }

@@ -20,7 +20,7 @@ class MoviesFactory extends Factory
     {
         return [
             //'title' => $this->faker->randomElements(['Jogos Vorazes', 'Harry Potter', 'Nerve', 'Ponyo', 'Que Horas Ela Volta'],1,false),
-            'title' => $this->faker->words(2, true),
+            'title' => $this->faker->unique()->words(2, true),
             'year' => $this->faker->year(),
             'category_id' => Categories::factory(),
             'tomatoes' => $this->faker->numberBetween(0,100),

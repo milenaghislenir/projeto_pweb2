@@ -21,6 +21,7 @@
                 <th>Genêro</th>
                 <th>Descrição</th>
                 <th>Popularidade</th>
+                <th>Filmes</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,9 @@
                     <td>{{ $category->genre }}</td>
                     <td>{{ $category->description }}</td>
                     <td>{{ $category->popularity }}%</td>
+                    <td>
+                        <a href="{{ route('moviecategory.index', $category) }}" class="btn btn-info btn-sm">Ver Filmes</a>
+                    </td>
                     <td>
                         <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-warning btn-sm">Editar</a>
                         <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline">

@@ -21,15 +21,7 @@
         </select>
         <h4>Ano de lançamento:</h4>
         <input type="text" name="year" required id="year" value="{{old('year',$movie->year ?? '')}}">
-        <h4>Categoria:</h4>
-        <select id="category_id" name="category_id" class="form-control" required>
-            <option value="" disabled {{ old('category_id', $movie->category_id ?? '') == '' ? 'selected' : '' }}>Selecione uma categoria</option>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}" >
-                    {{ $category->genre }}
-                </option>
-            @endforeach
-        </select>
+        <input type="hidden" name="category_id" value="{{ old('category_id', $movie->category_id ?? '') }}">
         <h4>Avaliação Rotten Tomatoes (%):</h4>
         <input type="number" name="tomatoes" required id="tomatoes" value="{{old('tomatoes',$movie->tomatoes ?? '')}}">
         <label for="image" class="form-label">Capa do Filme:</label>

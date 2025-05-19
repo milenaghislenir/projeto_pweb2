@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Movies; // Import the Movies class
 
 class Categories extends Model
 {
@@ -15,4 +16,8 @@ class Categories extends Model
         "description",
         "popularity"
     ];
+    public function movies()
+    {
+        return $this->hasMany(Movies::class, 'category_id');
+    }
 }

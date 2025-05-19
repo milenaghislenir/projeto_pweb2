@@ -13,8 +13,8 @@ class Employees extends Model
         "name",
         "age",
         "position",
-        "salary"
-
+        "salary",
+        "image"
     ];
 
 }

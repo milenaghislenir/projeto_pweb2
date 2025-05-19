@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\MovieCategoryController;
+use App\Http\Controllers\MovieDirectorController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('home');
 });
 
@@ -38,4 +40,28 @@ Route::get('/category/{id}',[CategoriesController::class,'edit'])->name('categor
 Route::put('/category/update/{id}',[CategoriesController::class,'update'])->name('categories.update');
 Route::delete('/category/{id}',[CategoriesController::class,'destroy'])->name('categories.destroy');
 Route::post('/category',[CategoriesController::class,'search'])->name('categories.search');
+
+//bombonieres
+use App\Http\Controllers\BombonieresController;
+
+Route::get('/bomboniere',[BombonieresController::class,'index'])->name('bombonieres.index');
+Route::get('/bomboniere/create',[BombonieresController::class,'create'])->name('bombonieres.create');
+Route::post('/bomboniere/store',[BombonieresController::class,'store'])->name('bombonieres.store');
+Route::get('/bomboniere/{id}',[BombonieresController::class,'edit'])->name('bombonieres.edit');
+Route::put('/bomboniere/update/{id}',[BombonieresController::class,'update'])->name('bombonieres.update');
+Route::delete('/bomboniere/{id}',[BombonieresController::class,'destroy'])->name('bombonieres.destroy');
+Route::post('/bomboniere',[BombonieresController::class,'search'])->name('bombonieres.search');
+
+//directors
+Route::get('/categories/movie/{category}',[MovieCategoryController::class,'index'])->name('moviecategory.index');
+Route::get('/categories/movie/{category}/create',[MovieCategoryController::class,'create'])->name('moviecategory.create');
+Route::post('/categories/movie/store',[MovieCategoryController::class,'store'])->name('moviecategory.store');
+Route::delete('/categories/movie/{category}/{id}',[MovieCategoryController::class,'edit'])->name('moviecategory.destroy');
+Route::get('/categories/movie/{category}/update/{id}',[MovieCategoryController::class,'update'])->name('moviecategory.edit');
+Route::put('/categories/movie/{category}/{id}',[MovieCategoryController::class,'destroy'])->name('moviecategory.update');
+Route::post('/categories/movie/{category}',[MovieCategoryController::class,'search'])->name('moviecategory.search');
+
+//relatorios
+Route::get('/relatorio-filmes', [MoviesController::class, 'report'])->name('movies.report');
+Route::get('/relatorio-funcionarios', [EmployeesController::class, 'report'])->name('employees.report');
 

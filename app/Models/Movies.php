@@ -15,6 +15,9 @@ class Movies extends Model
         "director_id",//id pra relacionar com a tabela de director (chave estrangeira)
         "year",
         "category_id",//id pra relacionar com a tabela de categories (chave estrangeira)
-        "tomatoes" //campos da tabela
+        "tomatoes", //campos da tabela
+        "image" //campos da tabela
     ];
+    
+
 }

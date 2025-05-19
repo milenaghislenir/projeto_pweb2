@@ -17,15 +17,7 @@ class CategoriesFactory extends Factory
      */
 
     protected $model = Categories::class;
-    public function getGenre():array{
-        $default_genre=['Comédia','Romance','SciFi','Terror','Drama'];
-        $new_genres=[];
-        for ($i=0; $i < 100; $i++) {
-            $value=array_rand($default_genre,1);
-        array_push($new_genres,"{$value}"."{$i}");
-        }
-        return $new_genres;
-    }
+
     public function definition(): array
     {
         return [
