@@ -13,6 +13,7 @@
             <option value="title">Title</option>
         </select>
         <button type="submit">Pesquisar</button>
+        <a href="{{route ('movies.report')}}">Gerar PDF</a>
 
     </form>
 

@@ -13,6 +13,7 @@
             <option value="name">Nome</option>
         </select>
         <button type="submit">Pesquisar</button>
+        <a href="{{route ('employees.report')}}">Gerar PDF</a>
     </form>
 
     <table class="table table-bordered">

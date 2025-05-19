@@ -124,7 +124,7 @@ class EmployeesController extends Controller
 
     public function report()
     {
-        $movies = Employees::orderBy('name')->get();
+        $employees = Employees::orderBy('name')->get();
 
         $data = [
             'employees' => $employees,
